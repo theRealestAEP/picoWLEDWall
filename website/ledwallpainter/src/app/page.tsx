@@ -1,4 +1,5 @@
 'use client'
+import { it } from "node:test";
 import { useEffect, useState, useRef } from "react";
 
 
@@ -13,18 +14,6 @@ export default function Home() {
   const itemsRef = useRef<JSX.Element[]>([]);
   const colorRef = useRef('#FFFFFF');
 
-  const [isDragging, setIsDragging] = useState(false);
-
-  const startDrag = (pixel: number, event: any) => {
-    setIsDragging(true); // Begin dragging
-    changePixelColor(pixel, event); // Change the color of the initial pixel
-  };
-
-  const dragOver = (pixel: number, event: any) => {
-    if (isDragging) {
-      changePixelColor(pixel, event); // Change the color if dragging over
-    }
-  };
 
   const mouseOver = (pixel: number, event: any) => {
     //check if mouse is down
@@ -35,9 +24,6 @@ export default function Home() {
     // console.log(pixel)
   };
 
-  const endDrag = () => {
-    setIsDragging(false); // End dragging
-  };
 
   const hexToRgb = (hex: string) => {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -54,10 +40,8 @@ export default function Home() {
     const updatedItems = itemsRef.current.map((item, index) => {
       if (index === pixel) {
         return <div className="grid-item" key={index} style={{ backgroundColor: `${colorRef.current}` }}
-          onMouseDown={(event) => startDrag(pixel, event)}
+          onClick={(event) => changePixelColor(pixel, event)}
           onMouseOver={(event) => mouseOver(pixel, event)}
-          onMouseEnter={(event) => dragOver(pixel, event)}
-          onMouseUp={endDrag}
         ></div>;
       }
       return item;
@@ -76,6 +60,28 @@ export default function Home() {
 
     console.log(rgbArray);
     return rgbArray; // This array now contains RGB strings for each item
+  }
+
+
+  async function sendArray(items: string) {
+    console.log(items)
+    try {
+      const response = await fetch('/api/sendarray', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(items),
+      });
+
+      if (!response.ok) {
+        console.error('Network response was not ok', response);
+        return;
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
   }
 
   const handleColorChange = (color: string) => {
@@ -107,10 +113,8 @@ export default function Home() {
     for (let i = 0; i <= Math.pow(gridSize, 2) - 1; i++) {
       tmpItems.push(
         <div className="grid-item" key={i}
-          onMouseDown={(event) => startDrag(i, event)}
-          onMouseOver={(event) => mouseOver(i, event)}
-          onMouseEnter={(event) => dragOver(i, event)}
-          onMouseUp={endDrag}
+            onClick={(event) => changePixelColor(i, event)}
+            onMouseOver={(event) => mouseOver(i, event)}
           style={{ backgroundColor: `#FFFFFF` }} >
 
         </div>)
@@ -121,15 +125,14 @@ export default function Home() {
 
   useEffect(() => {
     itemsRef.current = items; // set ref
+    let tmpItems = JSON.stringify(generateRGB())
+    sendArray(tmpItems);
   }, [items]);
 
   useEffect(() => {
     colorRef.current = color; // set ref
   }, [color]);
 
-  useEffect(() => {
-    console.log(isDragging) // set ref
-  }, [isDragging]);
 
 
   return (

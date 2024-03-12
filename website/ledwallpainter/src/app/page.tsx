@@ -47,7 +47,7 @@ export default function Home() {
       return item;
     });
 
-    console.log(updatedItems[pixel]);
+    // console.log(updatedItems[pixel]);
     setItems(updatedItems); // This now sets a new array, triggering a re-render
   }
 
@@ -58,7 +58,7 @@ export default function Home() {
       return hexToRgb(backgroundColor);
     });
 
-    console.log(rgbArray);
+    // console.log(rgbArray);
     return rgbArray; // This array now contains RGB strings for each item
   }
 
@@ -76,9 +76,6 @@ export default function Home() {
         console.error('Network response was not ok', response);
         return;
       }
-
-      const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error('Error fetching data: ', error);
     }

@@ -13,21 +13,52 @@ export default function Home() {
   const itemsRef = useRef<JSX.Element[]>([]);
   const colorRef = useRef('#FFFFFF');
 
-  const hexToRgb = (hex:string) => {
+  const [isDragging, setIsDragging] = useState(false);
+
+  const startDrag = (pixel: number, event: any) => {
+    setIsDragging(true); // Begin dragging
+    changePixelColor(pixel, event); // Change the color of the initial pixel
+  };
+
+  const dragOver = (pixel: number, event: any) => {
+    if (isDragging) {
+      changePixelColor(pixel, event); // Change the color if dragging over
+    }
+  };
+
+  const mouseOver = (pixel: number, event: any) => {
+    //check if mouse is down
+    if (event.buttons === 1) {
+      console.log('Mouse is down');
+      changePixelColor(pixel, event);
+    }
+    // console.log(pixel)
+  };
+
+  const endDrag = () => {
+    setIsDragging(false); // End dragging
+  };
+
+  const hexToRgb = (hex: string) => {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
-  
+
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
   };
-  
+
 
   const changePixelColor = (pixel: number, event: any) => {
     // Create a new array based on the current state
     const updatedItems = itemsRef.current.map((item, index) => {
       if (index === pixel) {
-        return <div className="grid-item" key={index} style={{ backgroundColor: `${colorRef.current}` }} onClick={(event) => { changePixelColor(index, event) }}></div>;
+        return <div className="grid-item" key={index} style={{ backgroundColor: `${colorRef.current}` }}
+          onMouseDown={(event) => startDrag(pixel, event)}
+          onMouseOver={(event) => mouseOver(pixel, event)}
+          onMouseEnter={(event) => dragOver(pixel, event)}
+          onMouseUp={endDrag}
+        ></div>;
       }
       return item;
     });
@@ -42,7 +73,7 @@ export default function Home() {
       const backgroundColor = item.props.style.backgroundColor;
       return hexToRgb(backgroundColor);
     });
-  
+
     console.log(rgbArray);
     return rgbArray; // This array now contains RGB strings for each item
   }
@@ -75,7 +106,12 @@ export default function Home() {
     let tmpItems: JSX.Element[] = [];
     for (let i = 0; i <= Math.pow(gridSize, 2) - 1; i++) {
       tmpItems.push(
-        <div className="grid-item" key={i} onClick={(event) => { changePixelColor(i, event) }} style={{ backgroundColor: `#FFFFFF` }} >
+        <div className="grid-item" key={i}
+          onMouseDown={(event) => startDrag(i, event)}
+          onMouseOver={(event) => mouseOver(i, event)}
+          onMouseEnter={(event) => dragOver(i, event)}
+          onMouseUp={endDrag}
+          style={{ backgroundColor: `#FFFFFF` }} >
 
         </div>)
     }
@@ -90,6 +126,11 @@ export default function Home() {
   useEffect(() => {
     colorRef.current = color; // set ref
   }, [color]);
+
+  useEffect(() => {
+    console.log(isDragging) // set ref
+  }, [isDragging]);
+
 
   return (
     <main className="flex max-h-20 flex-col items-center justify-between space-y-4 p-24">

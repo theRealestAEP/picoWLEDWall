@@ -102,7 +102,7 @@ export default function Home() {
       <div className="selected-color" style={{ backgroundColor: `${color}` }}>
         Selected Color
       </div>
-      <div className="grid-layout" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(40px, 1fr))` }}>
+      <div className="grid-layout" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(25px, 1fr))` }}>
         {items}
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">

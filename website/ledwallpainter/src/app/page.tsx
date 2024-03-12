@@ -98,7 +98,7 @@ export default function Home() {
         placeholder='Grid Size'
         value={gridSize}
         onChange={handleUserInputChange} ></input>
-      <button className="bg-slate-300 p-2 rounded-sm" onClick={()=>{generateRGB()}}>Export Grid</button>
+      {/* <button className="bg-slate-300 p-2 rounded-sm" onClick={()=>{generateRGB()}}>Export Grid</button> */}
       <div className="selected-color" style={{ backgroundColor: `${color}` }}>
         Selected Color
       </div>

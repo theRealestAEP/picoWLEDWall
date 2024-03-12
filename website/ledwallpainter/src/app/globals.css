@@ -5,21 +5,19 @@
 .grid-layout {
   display: grid;
   gap: 1px;
-
 }
 
 .grid-item {
   border: 1px solid gray;
   text-align: center;
-  /* Add more styling as needed */
-  flex: text-center;
-  height: 10vw; /* Adjust based on your design */
-  width: 10vw; /* Adjust based on your design */
-  max-width: 40px;
-  max-height: 40px;
-  min-width: 20px; /* Adjust these min values to ensure a minimum size */
-  min-height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1; /* Keeps the item square */
+  /* Remove fixed height and width to allow flexibility */
+  /* Optionally, set a min-width and min-height to ensure a minimum size, but it's now handled in grid-template-columns */
 }
+
 
 .selected-color {
   background-color:#ffcdd2;

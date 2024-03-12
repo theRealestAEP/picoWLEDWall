@@ -102,14 +102,14 @@ export default function Home() {
       <div className="selected-color" style={{ backgroundColor: `${color}` }}>
         Selected Color
       </div>
-      <div className="grid-layout" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}>
+      <div className="grid-layout" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(40px, 1fr))` }}>
         {items}
       </div>
-      <div className="grid grid-cols-4 gap-1">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 w-full">
         <div className="bg-red-500 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('red') }}>Red</div>
-        <div className="bg-blue-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('blue') }}>blue</div>
-        <div className="bg-green-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('green') }}>green</div>
-        <div className="bg-red-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('none') }}>eraser</div>
+        <div className="bg-blue-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('blue') }}>Blue</div>
+        <div className="bg-green-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('green') }}>Green</div>
+        <div className="bg-red-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('none') }}>Eraser</div>
       </div>
       <div>
         <h3>Exported Grid</h3>

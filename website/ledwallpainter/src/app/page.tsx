@@ -105,7 +105,7 @@ export default function Home() {
       <div className="grid-layout" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(40px, 1fr))` }}>
         {items}
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
         <div className="bg-red-500 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('red') }}>Red</div>
         <div className="bg-blue-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('blue') }}>Blue</div>
         <div className="bg-green-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('green') }}>Green</div>

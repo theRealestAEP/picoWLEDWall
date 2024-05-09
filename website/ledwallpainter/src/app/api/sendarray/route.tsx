@@ -21,7 +21,7 @@ export async function POST(req: Request) {
         flippedArray.push(chunk.reverse());
     }
 
-    flippedArray = [].concat(...flippedArray);
+    flippedArray = ([] as any[]).concat(...flippedArray);
 
     let newBody = JSON.stringify(flippedArray)
 

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 
 
 export default function Home() {
-  const [gridSize, setGrid] = useState(0);
+  const [gridSize, setGrid] = useState(28);
   const [color, setColor] = useState('#FFFFFF');
 
   //add grid data so it can be exported
@@ -31,7 +31,7 @@ export default function Home() {
     hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
 
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+    return result ? `${parseInt(result[2], 16)}, ${parseInt(result[1], 16)}, ${parseInt(result[3], 16)}` : null;
   };
 
 
@@ -84,13 +84,16 @@ export default function Home() {
   const handleColorChange = (color: string) => {
     switch (color) {
       case 'red':
-        setColor('#f44336');
+        setColor('#FF0000');
+        // setColor('#00FF00');
+
         break;
       case 'blue':
-        setColor('#bbdefb');
+        setColor('#0000FF');
         break;
       case 'green':
-        setColor('#c8e6c9');
+        setColor('#00FF00');
+        // setColor('#FF5733');
         break;
       case 'none':
         setColor('#FFFFFF');
@@ -102,9 +105,10 @@ export default function Home() {
   }
 
 
-  const handleUserInputChange = (e: any) => {
-    setGrid(e.target.value)
-  }
+  // const handleUserInputChange = (e: any) => {
+  //   setGrid(e.target.value)
+  // }
+
   useEffect(() => {
     let tmpItems: JSX.Element[] = [];
     for (let i = 0; i <= Math.pow(gridSize, 2) - 1; i++) {
@@ -118,12 +122,12 @@ export default function Home() {
     }
     setItems(tmpItems);
     // Array(0)
-  }, [gridSize])
+  }, [])
 
   useEffect(() => {
     itemsRef.current = items; // set ref
     let tmpItems = JSON.stringify(generateRGB())
-    sendArray(tmpItems);
+    // sendArray(tmpItems);
   }, [items]);
 
   useEffect(() => {
@@ -134,11 +138,11 @@ export default function Home() {
 
   return (
     <main className="flex max-h-20 flex-col items-center justify-between space-y-4 p-24">
-      <input type="number"
+      {/* <input type="number"
         className="outline-black bg-slate-100"
         placeholder='Grid Size'
         value={gridSize}
-        onChange={handleUserInputChange} ></input>
+        onChange={handleUserInputChange} ></input> */}
       {/* <button className="bg-slate-300 p-2 rounded-sm" onClick={()=>{generateRGB()}}>Export Grid</button> */}
       <div className="selected-color" style={{ backgroundColor: `${color}` }}>
         Selected Color
@@ -146,18 +150,19 @@ export default function Home() {
       <div className="grid-layout" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(25px, 1fr))` }}>
         {items}
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
-        <div className="bg-red-500 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('red') }}>Red</div>
-        <div className="bg-blue-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('blue') }}>Blue</div>
-        <div className="bg-green-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('green') }}>Green</div>
-        <div className="bg-red-100 text-center cursor-pointer rounded-sm p-2" onClick={() => { handleColorChange('none') }}>Eraser</div>
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-1">
+        <div className="bg-red-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-sm" onClick={() => { handleColorChange('red') }}>Red</div>
+        <div className="bg-blue-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-sm" onClick={() => { handleColorChange('blue') }}>Blue</div>
+        <div className="bg-green-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-sm" onClick={() => { handleColorChange('green') }}>Green</div>
+        <div className="bg-red-100 text-center cursor-pointer rounded-sm p-2 shadow-sm" onClick={() => { handleColorChange('none') }}>Eraser</div>
+        <div className="bg-purple-100 text-center cursor-pointer rounded-sm p-2 shadow-sm" onClick={() => {let tmpItems = JSON.stringify(generateRGB()); sendArray(tmpItems)}}>Submit</div>
       </div>
-      <div>
+      {/* <div>
         <h3>Exported Grid</h3>
         <p className="bg-slate-100 p-4 rounded-md">
           {JSON.stringify(generateRGB())}
         </p>
-      </div>
+      </div> */}
     </main>
   );
 }

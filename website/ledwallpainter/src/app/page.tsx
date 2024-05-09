@@ -34,6 +34,20 @@ export default function Home() {
     return result ? `${parseInt(result[2], 16)}, ${parseInt(result[1], 16)}, ${parseInt(result[3], 16)}` : null;
   };
 
+  const clearAll = () => {
+    // setColor('#FFFFFF');
+    for(let i = 0; i <= Math.pow(gridSize, 2) - 1; i++) {
+      const updatedItems = itemsRef.current.map((item, index) => {
+          return <div className="grid-item" key={index} style={{ backgroundColor: `#FFFFFF` }}
+            onClick={(event) => changePixelColor(index, event)}
+            onMouseOver={(event) => mouseOver(index, event)}
+          ></div>;
+      });
+  
+      // console.log(updatedItems[pixel]);
+      setItems(updatedItems); // This now sets a new array, triggering a re-render
+    }
+  }
 
   const changePixelColor = (pixel: number, event: any) => {
     // Create a new array based on the current state
@@ -150,11 +164,12 @@ export default function Home() {
       <div className="grid-layout" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(25px, 1fr))` }}>
         {items}
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-1">
+      <div className="grid grid-cols-2 sm:grid-cols-6 gap-1">
         <div className="bg-red-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-sm" onClick={() => { handleColorChange('red') }}>Red</div>
         <div className="bg-blue-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-sm" onClick={() => { handleColorChange('blue') }}>Blue</div>
         <div className="bg-green-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-sm" onClick={() => { handleColorChange('green') }}>Green</div>
         <div className="bg-red-100 text-center cursor-pointer rounded-sm p-2 shadow-sm" onClick={() => { handleColorChange('none') }}>Eraser</div>
+        <div className="bg-orange-200 text-center cursor-pointer rounded-sm p-2 shadow-sm" onClick={() => { clearAll()}}>Clear</div>
         <div className="bg-purple-100 text-center cursor-pointer rounded-sm p-2 shadow-sm" onClick={() => {let tmpItems = JSON.stringify(generateRGB()); sendArray(tmpItems)}}>Submit</div>
       </div>
       {/* <div>

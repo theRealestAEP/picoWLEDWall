@@ -18,21 +18,24 @@ export default function Home() {
   const gridRef = useRef<HTMLDivElement>(null);
 
 
-  const getPixelFromTouch = (event: any) => {
+  const getPixelFromTouch = (event:any) => {
     const touch = event.touches[0];
     const grid = gridRef.current;
     if (grid) {
       const rect = grid.getBoundingClientRect();
-      const x = touch.clientX - rect.left; // x position within the element.
-      const y = touch.clientY - rect.top;  // y position within the element.
+      // Calculate touch position relative to the grid
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      // Calculate which cell in the grid the touch is over
       const row = Math.floor(y / (rect.height / gridSize));
       const col = Math.floor(x / (rect.width / gridSize));
-      return row * gridSize + col;
+      const pixel = row * gridSize + col;
+      return pixel >= 0 && pixel < gridSize * gridSize ? pixel : null;
     }
     return null;
   };
 
-  const touchMove = (event:any) => {
+  const touchMove = (event: any) => {
     // By marking this as non-passive, we can safely call preventDefault
     event.preventDefault();
     const pixel = getPixelFromTouch(event);
@@ -40,7 +43,7 @@ export default function Home() {
       changePixelColor(pixel, event);
     }
   };
-  
+
 
   const mouseOver = (pixel: number, event: any) => {
     //check if mouse is down
@@ -130,7 +133,7 @@ export default function Home() {
 
     console.log(items);
     setRateLimited(true);
-    
+
     try {
       const response = await fetch('/api/sendarray', {
         method: 'POST',
@@ -216,7 +219,7 @@ export default function Home() {
       // Attach the event listener non-passively
       const options = false;
       grid.addEventListener('touchmove', touchMove, options);
-  
+
       return () => {
         // Clean up the event listener when the component unmounts
         grid.removeEventListener('touchmove', touchMove, options);
@@ -236,7 +239,7 @@ export default function Home() {
 
 
   return (
-    <main className="flex flex-col items-center justify-between space-y-4 p-4" ref={gridRef}>
+    <main className="flex flex-col items-center justify-between space-y-4 p-4">
       {/* Submit button on top */}
       <div className="bg-purple-100 text-center cursor-pointer rounded-sm p-2 shadow-md mb-4" onClick={() => { let tmpItems = JSON.stringify(generateRGB()); sendArray(tmpItems) }}>Submit</div>
 
@@ -253,7 +256,7 @@ export default function Home() {
         </div>
       </div>
       {/* Adjusting grid for items */}
-      <div className="grid-layout">
+      <div className="grid-layout"  ref={gridRef}>
         {items}
       </div>
 

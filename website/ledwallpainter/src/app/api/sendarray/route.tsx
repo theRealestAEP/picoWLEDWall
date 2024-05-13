@@ -24,13 +24,6 @@ export async function POST(req: Request) {
     flippedArray = ([] as any[]).concat(...flippedArray);
 
     let newBody = JSON.stringify(flippedArray)
-
-    // let newBody = body.forEach((color: any) => {
-    //     if(color == "255, 255, 255") {
-    //         color = "0, 0, 0"
-    //     }   
-    // })
-    // console.log(newBody);
     const url = `https://backend.removegreenscreen.com:8082/savearray`
     const response = await fetch(url, {
         method: 'POST',

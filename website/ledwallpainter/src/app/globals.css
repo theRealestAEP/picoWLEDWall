@@ -25,3 +25,22 @@
   padding: 2px;
   border-radius: 2px;
 }
+
+.grid-layout {
+  display: grid;
+  touch-action: none;
+}
+
+/* Default to 10 columns */
+.grid-layout {
+  grid-template-columns: repeat(28, minmax(25px, 1fr));
+  touch-action: none;
+}
+
+/* For smaller screens, switch to a 2x2 grid */
+@media (max-width: 640px) {
+  .grid-layout {
+    grid-template-columns: repeat(28, minmax(10px, 1fr));
+    touch-action: none;
+  }
+}

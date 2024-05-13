@@ -18,7 +18,7 @@ export default function Home() {
   const gridRef = useRef<HTMLDivElement>(null);
 
 
-  const getPixelFromTouch = (event:any) => {
+  const getPixelFromTouch = (event: any) => {
     const touch = event.touches[0];
     const grid = gridRef.current;
     if (grid) {
@@ -170,6 +170,10 @@ export default function Home() {
         setColor('#00FF00');
         // setColor('#FF5733');
         break;
+      case 'yellow':
+        setColor('#FFFF00');
+        // setColor('#FF5733');
+        break;
       case 'none':
         setColor('#FFFFFF');
         break;
@@ -239,7 +243,7 @@ export default function Home() {
 
 
   return (
-    <main className="flex flex-col items-center justify-between space-y-4 p-4">
+    <main className="flex flex-col items-center justify-between space-y-4 p-4 bg-slate-400">
       {/* Submit button on top */}
       <div className="bg-purple-100 text-center cursor-pointer rounded-sm p-2 shadow-md mb-4" onClick={() => { let tmpItems = JSON.stringify(generateRGB()); sendArray(tmpItems) }}>Submit</div>
 
@@ -249,6 +253,7 @@ export default function Home() {
         <div className="bg-red-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-md" onClick={() => { handleColorChange('red') }}>Red</div>
         <div className="bg-blue-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-md" onClick={() => { handleColorChange('blue') }}>Blue</div>
         <div className="bg-green-600 text-center cursor-pointer rounded-sm p-2 text-white shadow-md" onClick={() => { handleColorChange('green') }}>Green</div>
+        <div className="bg-yellow-300 text-center cursor-pointer rounded-sm p-2 text-white shadow-md" onClick={() => { handleColorChange('yellow') }}>yellow</div>
         <div className="bg-red-100 text-center cursor-pointer rounded-sm p-2 shadow-md" onClick={() => { handleColorChange('none') }}>Eraser</div>
         <div className="bg-orange-200 text-center cursor-pointer rounded-sm p-2 shadow-md" onClick={() => { clearAll() }}>Clear</div>
         <div className="selected-color text-white rounded-sm shadow-md" style={{ backgroundColor: `${color}` }}>
@@ -256,11 +261,16 @@ export default function Home() {
         </div>
       </div>
       {/* Adjusting grid for items */}
-      <div className="grid-layout"  ref={gridRef}>
+      <div className="grid-layout shadow-md" ref={gridRef}>
         {items}
       </div>
 
       <ToastContainer />
+      <div className="justify-center">
+        <p className="shadow-lg">
+          please keep it clean for the presentation!
+        </p>
+      </div>
     </main>
 
   );

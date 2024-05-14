@@ -32,26 +32,25 @@ setInterval(() => {
 
 app.get("/array", (req, res) => {
   res.setHeader('Content-Type', 'text/plain');
-  let rgbArray = stringToRGBArray(currentImage);  // Convert the current array of strings to an array of RGB tuples
-  const hexString = rgbToHexString(rgbArray);  // Convert RGB tuples to a single hex string
+  let rgbArray = stringToRGBArray(currentImage);  
+  const hexString = rgbToHexString(rgbArray);  
   console.log(hexString)
   res.send(hexString);
 });
 
 app.post("/savearray", (req, res) => {
-  console.log(req.body); // Log the body to see what you're getting
   if (!Array.isArray(req.body)) {
     return res.status(400).send("Expected an array");
   }
-  // curArray = req.body;
+
   imageQueue.push(req.body);
-  // console.log(curArray); // Verify it's been updated
+
   return res.send("Array updated successfully");
 });
 
 
 
-//REPLACE TJESE WITH YOUR OWN CERTS
+//REPLACE THESE WITH YOUR OWN CERTS
 const options = {
   key: fs.readFileSync('/etc/letsencrypt/live/backend.removegreenscreen.com/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/backend.removegreenscreen.com/fullchain.pem')

@@ -1,7 +1,7 @@
 # Setting Up 
 
 ## the backend 
-> install BUN on the target server 
+> install BUN on the target server `https://bun.sh/`
 
 > Create ssl Certs for the machine that server will be running on [ you need to do this because Vercel Edge functions won't make requests to insecure backends ]
 
